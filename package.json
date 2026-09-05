@@ -1,0 +1,17 @@
+{
+  "name": "campusbazar-local-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/start-local.mjs",
+    "seed": "node scripts/seed-local.mjs",
+    "check": "node scripts/check-local.mjs",
+    "stop": "node scripts/stop-local.mjs",
+    "setup": "node scripts/setup-local.mjs"
+  },
+  "devDependencies": {
+    "firebase-tools": "^15.29.0",
+    "mongodb": "^7.6.0",
+    "mongodb-memory-server": "^11.2.0"
+  }
+}
