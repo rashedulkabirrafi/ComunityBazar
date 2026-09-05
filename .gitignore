@@ -8,3 +8,9 @@ dist/
 verification/local-*.json
 verification/local-*.log
 .DS_Store
+
+# Local exports and verification output
+/campusbazar-export/
+/campusbazar.zip
+/verification/*
+!/verification/REPORT.md
