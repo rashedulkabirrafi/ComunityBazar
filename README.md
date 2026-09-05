@@ -23,7 +23,7 @@ These accounts exist only in the local authentication emulator. Use test data on
 
 In a second terminal, run `npm run check` for API/Firebase SDK integration checks. Stop with Ctrl+C; `npm stop` also stops a managed background instance on Linux.
 
-See [local development instructions](README-LOCAL.md) and the [original project assessment](verification/REPORT.md). Known profile-update, authorization, password-storage and lint issues remain; this setup is for local evaluation and is not production-ready.
+See [local development instructions](README-LOCAL.md) and the [project assessment](verification/REPORT.md). Known profile-update, authorization, password-storage and lint issues remain; this setup is for local evaluation and is not production-ready.
 
 ## Contents
 
@@ -33,12 +33,3 @@ See [local development instructions](README-LOCAL.md) and the [original project 
 - `firebase.json`: local authentication emulator configuration
 
 Dependencies, generated builds, personal environment files, uploaded images and local databases are intentionally excluded. The lockfiles and setup command recreate the dependencies.
-
-## Original sources and credits
-
-Adapted from the CampusBazar project by md-imteaj-rana and its contributors:
-
-- https://github.com/md-imteaj-rana/CSE-470_Project-CampusBazar
-- https://github.com/md-imteaj-rana/CSE-470_Project-backend
-
-This independently created repository combines those sources with local development configuration. It is not a GitHub fork. Original source credits are retained; this repository does not claim original authorship of the upstream application.

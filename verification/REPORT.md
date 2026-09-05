@@ -4,11 +4,7 @@ Checked September 5, 2026 using Node v22.23.2 and npm 10.9.8.
 
 **Verdict: partially working; cannot certify the whole project as working.** The production frontend builds and hosted public endpoints respond. A fresh checkout needs missing configuration, and confirmed defects remain.
 
-## Source versions
-
-- Frontend: https://github.com/md-imteaj-rana/CSE-470_Project-CampusBazar — `84bb5c6b5b9215717f2af1ef7ceb5e1293ad40fb`
-- Backend: https://github.com/md-imteaj-rana/CSE-470_Project-backend — `26d1c14e9a6ca595c639b9a6e6fec15ff6faf253`
-- Cloned into `../frontend` and `../backend`. Source files were not changed.
+This assessment records the initial project state before the local setup changes. For current setup instructions, see [README.md](../README.md).
 
 ## Executed checks
 

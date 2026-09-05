@@ -16,7 +16,7 @@ Open **http://localhost:5173** after the terminal says CampusBazar is ready.
 | Student | student@campusbazar.test | Campus123! |
 | Administrator | admin@campusbazar.test | Campus123! |
 
-These are disposable local test credentials. Sample listings are created automatically. You can also register new accounts using a PNG/JPEG/WebP/GIF profile photo (up to 5 MB). Only use test information because the original application has known security defects.
+These are disposable local test credentials. Sample listings are created automatically. You can also register new accounts using a PNG/JPEG/WebP/GIF profile photo (up to 5 MB). Only use test information because the application has known security defects.
 
 Press **Ctrl+C** in the start terminal to stop all services and save authentication data. If the stack was started in the background, run `npm stop`. Do not run two instances at once.
 
@@ -67,14 +67,13 @@ All services bind to loopback. MongoDB uses persistent WiredTiger storage in `.l
 - `backend/.env` points at the local database and enables local image uploads. Database connection and ping now actually run.
 - Image uploads use `src/utils/uploadImage.js`. With `VITE_LOCAL_UPLOADS=true`, files stay in `.local-data/uploads`; production ImgBB upload requires `VITE_IMGBB_API_KEY` when local mode is disabled.
 - `npm start` starts MongoDB, authentication, backend and frontend; it seeds test accounts and listings.
-- This combined repository starts with a new Git history. Original source credits are listed in README.md.
 
-## Known limitations of the original project
+## Known limitations
 
-This setup makes the project testable locally; it does not fix every original defect. Profile edits update Firebase but cannot update the MongoDB profile because PATCH /users/profile/:email is absent. GET /debug/routes returns 500. Frontend lint still reports the same four errors. Password storage and missing/forgeable API authorization remain issues; do not deploy this configuration or use real credentials.
+This setup makes the project testable locally; it does not fix every existing defect. Profile edits update Firebase but cannot update the MongoDB profile because PATCH /users/profile/:email is absent. GET /debug/routes returns 500. Frontend lint still reports the same four errors. Password storage and missing/forgeable API authorization remain issues; do not deploy this configuration or use real credentials.
 
-The automatic checks cover API and SDK integration, not browser clicks or visual layout. Manually test navigation, registration forms, search/filtering, adding listings, cart/checkout screens, reviews, and administrator pages in your browser. Real Firebase/ImgBB integrations and real payments are not verified by this local setup. The original checkout records payment details; it does not process a real payment.
+The automatic checks cover API and SDK integration, not browser clicks or visual layout. Manually test navigation, registration forms, search/filtering, adding listings, cart/checkout screens, reviews, and administrator pages in your browser. Real Firebase/ImgBB integrations and real payments are not verified by this local setup. The checkout records payment details; it does not process a real payment.
 
-Original repository assessment: `verification/REPORT.md`. That report describes the original fresh checkout before these local setup changes.
+Initial project assessment: `verification/REPORT.md`. That report describes the initial checkout before these local setup changes.
 
 References: [Firebase Authentication emulator](https://firebase.google.com/docs/emulator-suite/connect_auth) and [MongoDB local process configuration](https://github.com/typegoose/mongodb-memory-server).

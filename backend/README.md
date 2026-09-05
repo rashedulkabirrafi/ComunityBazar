@@ -1,4 +1,5 @@
-### This repository contains the backend codes of CSE470 project named CampusBazar.
+# CampusBazar backend
 
-## Frontend repository link : 
-### https://github.com/md-imteaj-rana/CSE-470_Project-CampusBazar.git
+Express/MongoDB API for CampusBazar.
+
+See the [workspace setup guide](../README.md) and [frontend](../frontend/Readme.md).

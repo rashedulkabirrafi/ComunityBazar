@@ -61,13 +61,13 @@ async function run() {
     // creating collections
     const userCollections = database.collection('user');
 
-    // ================= FAHIM'S COLLECTIONS START =================
+    // ================= FEATURE COLLECTIONS START =================
     // Feature: My Cart and My Orders
     const cartCollections = database.collection('cart');
     const wishlistCollections = database.collection('wishlist');
     const orderCollections = database.collection('orders');
-    const reviewCollections = database.collection('reviews'); // Fahim
-    // ================= FAHIM'S COLLECTIONS END =================
+    const reviewCollections = database.collection('reviews');
+    // ================= FEATURE COLLECTIONS END =================
 
     const listingCollections = database.collection('listings');
 
@@ -201,11 +201,11 @@ async function run() {
     // ================= END LISTINGS ROUTES =================
 
 
-    // ================= FAHIM'S PART START =================
+    // ================= COMMERCE ROUTES START =================
     // Feature: My Cart and My Orders backend
 
 
-    // ================= CART ROUTES - FAHIM =================
+    // ================= CART ROUTES =================
 
     // Add item to cart
     app.post('/cart', async (req, res) => {
@@ -317,7 +317,7 @@ async function run() {
       res.send(result);
     });
 
-    // ================= ORDER ROUTES - FAHIM =================
+    // ================= ORDER ROUTES =================
 
     // Place order
     app.post('/orders', async (req, res) => {
@@ -384,7 +384,7 @@ async function run() {
 
 
 
-    // ================= REVIEW ROUTES - FAHIM =================
+    // ================= REVIEW ROUTES =================
 
     // Add rating and review
     app.post('/reviews', async (req, res) => {
@@ -435,7 +435,7 @@ async function run() {
 
       res.send(result);
     });
-    // ================= FAHIM'S PART END =================  
+    // ================= COMMERCE ROUTES END =================  
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
