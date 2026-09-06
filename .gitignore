@@ -4,6 +4,7 @@ dist/
 .env
 .env.*
 !.env.example
+!.env.production.example
 *.log
 verification/local-*.json
 verification/local-*.log
@@ -14,3 +15,6 @@ verification/local-*.log
 /ComunityBazar.zip
 /verification/*
 !/verification/REPORT.md
+
+/playwright-report/
+/test-results/

@@ -29,7 +29,15 @@ cd <your-clone-directory>
 npm run check
 ```
 
-This uses the Firebase SDK and the actual local database/API to test registration/login/logout, image storage, listing creation/details, cart quantities, wishlist duplicates/removal, order creation/status/history, and reviews. Temporary smoke-test records are cleaned up; sample accounts and your manual test data are retained. It also reports the known profile-update and debug-route failures. Results go to `verification/local-checks.json`.
+This uses the Firebase SDK and the actual local database/API to test registration/login/logout, image storage, listing creation/details, cart quantities, wishlist duplicates/removal, order creation/status/history, and reviews. It also checks that anonymous and forged tokens are rejected, that passwords are never stored, and that roles cannot be escalated. Temporary smoke-test records are cleaned up; sample accounts and your manual test data are retained. Results go to `verification/local-checks.json`.
+
+To test the browser interface as well, with the app running:
+
+```bash
+npm run test:browser
+```
+
+This drives Chromium through the real pages at desktop (1280×800) and mobile (390×844) sizes: navigation, registration, publishing a listing, checkout, administrator order handover and reviews. Every page is also checked for horizontal overflow, uncaught page errors, and WCAG 2.1 AA violations with axe. Screenshots land in `verification/responsive/` and a report in `verification/browser-report/`.
 
 To rebuild the frontend:
 
@@ -70,9 +78,9 @@ All services bind to loopback. MongoDB uses persistent WiredTiger storage in `.l
 
 ## Known limitations
 
-This setup makes the project testable locally; it does not fix every existing defect. Profile edits update Firebase but cannot update the MongoDB profile because PATCH /users/profile/:email is absent. GET /debug/routes returns 500. Frontend lint still reports the same four errors. Password storage and missing/forgeable API authorization remain issues; do not deploy this configuration or use real credentials.
+This configuration is for local evaluation only; do not deploy it or use real credentials with it. It uses a demo Firebase project, an authentication emulator, and disposable test accounts.
 
-The automatic checks cover API and SDK integration, not browser clicks or visual layout. Manually test navigation, registration forms, search/filtering, adding listings, cart/checkout screens, reviews, and administrator pages in your browser. Real Firebase/ImgBB integrations and real payments are not verified by this local setup. The checkout records payment details; it does not process a real payment.
+The automatic checks cover the API, the Firebase SDK integration, and the browser interface at both screen sizes. They do not verify real Firebase/ImgBB integrations, real payments, or how the app behaves under load. The checkout records payment details; it does not process a real payment. Visual design and copy still deserve a manual look.
 
 Initial project assessment: `verification/REPORT.md`. That report describes the initial checkout before these local setup changes.
 

@@ -7,11 +7,16 @@
     "seed": "node scripts/seed-local.mjs",
     "check": "node scripts/check-local.mjs",
     "stop": "node scripts/stop-local.mjs",
-    "setup": "node scripts/setup-local.mjs"
+    "setup": "node scripts/setup-local.mjs",
+    "test:browser": "playwright test",
+    "format:check": "prettier --check frontend/src backend/index.js scripts tests playwright.config.js"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "firebase-tools": "^15.29.0",
     "mongodb": "^7.6.0",
-    "mongodb-memory-server": "^11.2.0"
+    "mongodb-memory-server": "^11.2.0",
+    "prettier": "^3.9.6"
   }
 }

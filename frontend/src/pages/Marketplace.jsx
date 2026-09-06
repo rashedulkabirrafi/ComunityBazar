@@ -1,174 +1,158 @@
-import { API_BASE_URL } from '../config/api';
-import React, { useState, useEffect, useMemo } from 'react'
-import { useNavigate } from 'react-router'
-import '../styles/Marketplace.css'
-
-const Marketplace = () => {
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [visibleCount, setVisibleCount] = useState(20); // 5 rows x 4 columns
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const navigate = useNavigate();
-
-  // Fetch listings from MongoDB
-  useEffect(() => {
-    const fetchListings = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_BASE_URL}/listings`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch listings');
-        }
-        const data = await response.json();
-        setAllProducts(data);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching listings:', err);
-        setError(err.message);
-        setAllProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchListings();
-  }, []);
-
-  // Get unique categories
-  const categories = ['all', ...new Set(allProducts.map(p => p.category))];
-
-  // Filter products based on search and category
-  const filteredProducts = useMemo(() => {
-    return allProducts.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          product.location.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchTerm, selectedCategory, allProducts]);
-
-  // Get visible products
-  const visibleProducts = filteredProducts.slice(0, visibleCount);
-
-  const handleShowMore = () => {
-    setVisibleCount(prev => prev + 20);
-  };
-
+import { useSearchParams } from "react-router";
+import {
+  Search,
+  X,
+  SlidersHorizontal,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
+import useResource from "../hooks/useResource";
+import { categories } from "../lib/api";
+import {
+  ProductCard,
+  PageTitle,
+  Empty,
+  Loading,
+  ErrorState,
+} from "../ui/shared";
+export default function Marketplace() {
+  const [params, setParams] = useSearchParams();
+  const q = params.get("q") || "",
+    category = params.get("category") || "",
+    sort = params.get("sort") || "newest",
+    page = Math.max(1, Number(params.get("page")) || 1);
+  const query = new URLSearchParams({
+    q,
+    category,
+    sort,
+    page: String(page),
+    limit: "12",
+  });
+  const { data, loading, error, reload } = useResource(`/listings?${query}`);
+  function change(key, value) {
+    const next = new URLSearchParams(params);
+    next.delete("page");
+    value ? next.set(key, value) : next.delete(key);
+    setParams(next);
+  }
   return (
-    <div className='marketplace-container'>
-      {/* Header */}
-      <div className='marketplace-header'>
-        <h1>Marketplace</h1>
-        <p>Explore our wide range of daily essentials and products</p>
-      </div>
-
-      {/* Search Bar */}
-      <div className='search-filter-section'>
-        <div className='search-box'>
+    <div className="container marketplace-page">
+      <title>Discover — ComunityBazar</title>
+      <PageTitle
+        eyebrow="THE MARKETPLACE"
+        title="Find your next good thing."
+        description="Useful, unexpected, and ready for a new home."
+      />
+      <div className="market-toolbar">
+        <form
+          className="search-field"
+          onSubmit={(e) => {
+            e.preventDefault();
+            change("q", new FormData(e.currentTarget).get("q"));
+          }}
+          key={q}
+        >
+          <Search size={18} />
           <input
-            type='text'
-            placeholder='Search by product name, description, or location...'
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setVisibleCount(20); // Reset to first page on search
-            }}
+            name="q"
+            defaultValue={q}
+            placeholder="Search for a good find…"
+            aria-label="Search listings"
           />
-          <span className='search-icon'>🔍</span>
-        </div>
-
-        {/* Category Filter */}
-        <div className='category-filter'>
-          {categories.map(category => (
-            <button
-              key={category}
-              className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
-              onClick={() => {
-                setSelectedCategory(category);
-                setVisibleCount(20); // Reset to first page on filter
-              }}
-            >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Results Info */}
-      <div className='results-info'>
-        <p>Showing {visibleProducts.length} of {filteredProducts.length} products</p>
-      </div>
-
-      {/* Loading State */}
-      {loading && (
-        <div className='no-products'>
-          <p>Loading products from database...</p>
-        </div>
-      )}
-
-      {/* Error State */}
-      {error && !loading && (
-        <div className='no-products'>
-          <p>Error loading products: {error}</p>
-        </div>
-      )}
-
-      {/* Products Grid */}
-      {!loading && !error && visibleProducts.length > 0 ? (
-        <div className='products-grid'>
-          {visibleProducts.map((product, index) => (
-            <div key={product._id || index} className='product-card'>
-              <div className='product-image'>
-                <img src={product.image || 'https://via.placeholder.com/300x300?text=No+Image'} alt={product.name} onError={(e) => {e.target.src = 'https://via.placeholder.com/300x300?text=No+Image'}} />
-              </div>
-              <div className='product-info'>
-                <h3 className='product-name'>{product.name}</h3>
-                <p className='product-brand'>Location: <span>{product.location}</span></p>
-                <p className='product-color'>Seller: <span>{product.email}</span></p>
-                <p className='product-description'>{product.description}</p>
-                <div className='product-footer'>
-                  <p className='product-price'>Tk {(product.price || 0).toLocaleString('en-IN')}</p>
-                  <div style={{display: 'flex', gap: '8px'}}>
-                    <button 
-                      className='add-to-cart-btn' 
-                      style={{backgroundColor: '#4f46e5'}}
-                      onClick={() => navigate(`/ViewDetails/${product._id}`)}
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : !loading && !error && visibleProducts.length === 0 ? (
-        <div className='no-products'>
-          <p>No products found matching your criteria.</p>
-        </div>
-      ) : null
-      }
-
-      {/* Show More Button */}
-      {visibleCount < filteredProducts.length && (
-        <div className='show-more-container'>
-          <button className='show-more-btn' onClick={handleShowMore}>
-            Show More Products
+          <button className="button small" type="submit">
+            Search
           </button>
-        </div>
-      )}
-
-      {/* All loaded message */}
-      {visibleCount >= filteredProducts.length && filteredProducts.length > 0 && (
-        <div className='all-loaded'>
-          <p>All products loaded!</p>
-        </div>
+        </form>
+        <label className="sort-field">
+          <SlidersHorizontal size={17} />
+          <span className="sr-only">Sort listings</span>
+          <select value={sort} onChange={(e) => change("sort", e.target.value)}>
+            <option value="newest">Recently added</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select>
+        </label>
+      </div>
+      <div className="filter-chips" aria-label="Filter by category">
+        {["", ...categories].map((c) => (
+          <button
+            className={c === category ? "selected" : ""}
+            aria-pressed={c === category}
+            key={c}
+            onClick={() => change("category", c)}
+          >
+            {c || "All finds"}
+          </button>
+        ))}
+      </div>
+      <div className="results-label">
+        <span>
+          {loading
+            ? "Finding good things…"
+            : `${data?.total || 0} ${data?.total === 1 ? "find" : "finds"}${q ? ` for “${q}”` : ""}`}
+        </span>
+        {(q || category) && (
+          <button className="text-link" onClick={() => setParams({})}>
+            Clear filters <X size={14} />
+          </button>
+        )}
+      </div>
+      {loading ? (
+        <Loading cards />
+      ) : error ? (
+        <ErrorState message={error} retry={reload} />
+      ) : data?.items.length ? (
+        <>
+          <div className="product-grid market-products">
+            {data.items.map((item) => (
+              <ProductCard key={item._id} item={item} />
+            ))}
+          </div>
+          {data.pages > 1 && (
+            <nav className="pagination" aria-label="Listing pages">
+              <button
+                className="button secondary"
+                disabled={page <= 1}
+                onClick={() =>
+                  setParams({
+                    ...Object.fromEntries(params),
+                    page: String(page - 1),
+                  })
+                }
+              >
+                <ArrowLeft size={16} />
+                Previous
+              </button>
+              <span>
+                Page {page} of {data.pages}
+              </span>
+              <button
+                className="button secondary"
+                disabled={page >= data.pages}
+                onClick={() =>
+                  setParams({
+                    ...Object.fromEntries(params),
+                    page: String(page + 1),
+                  })
+                }
+              >
+                Next
+                <ArrowRight size={16} />
+              </button>
+            </nav>
+          )}
+        </>
+      ) : (
+        <Empty
+          title="No finds this time"
+          text="Try another search or a different category. Your next favorite might be one click away."
+          action={
+            <button className="button secondary" onClick={() => setParams({})}>
+              See all listings
+            </button>
+          }
+        />
       )}
     </div>
-  )
+  );
 }
-
-export default Marketplace
