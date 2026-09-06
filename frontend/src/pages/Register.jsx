@@ -93,7 +93,7 @@ const Regisger = () => {
 
   return (
     <div>
-      <title>Sign up to CampusBazar</title>
+      <title>Sign up to ComunityBazar</title>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
         
         <div className="w-full max-w-4xl grid md:grid-cols-2 bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -104,7 +104,7 @@ const Regisger = () => {
               <span className="text-indigo-600 text-3xl font-bold">C</span>
             </div>
             <h2 className="text-3xl font-bold mb-3">
-              Campus<span className="text-yellow-300">Bazar</span>
+              Comunity<span className="text-yellow-300">Bazar</span>
             </h2>
             <p className="text-indigo-100 text-sm leading-relaxed mb-8">
               Your trusted campus marketplace. Buy, sell and connect with fellow students.
@@ -131,11 +131,11 @@ const Regisger = () => {
               <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center">
                 <span className="text-white text-lg font-bold">C</span>
               </div>
-              <span className="text-xl font-bold text-gray-800">Campus<span className="text-indigo-600">Bazar</span></span>
+              <span className="text-xl font-bold text-gray-800">Comunity<span className="text-indigo-600">Bazar</span></span>
             </div>
 
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">Create Account</h1>
-            <p className="text-gray-500 text-sm mb-7">Join CampusBazar newtwork to buy and sell your used goods with your fellows.</p>
+            <p className="text-gray-500 text-sm mb-7">Join ComunityBazar newtwork to buy and sell your used goods with your fellows.</p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               

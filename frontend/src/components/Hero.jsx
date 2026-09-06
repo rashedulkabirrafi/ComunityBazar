@@ -73,7 +73,7 @@ const Hero = () => {
                   <div className="w-28 h-28 mx-auto bg-linear-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-6xl mb-6 shadow-inner">
                     🏛️
                   </div>
-                  <h3 className="text-gray-800 font-bold text-2xl">CampusBazar</h3>
+                  <h3 className="text-gray-800 font-bold text-2xl">ComunityBazar</h3>
                   <p className="text-gray-500">Your Campus. Your Market.</p>
                 </div>
               </div>

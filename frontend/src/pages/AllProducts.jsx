@@ -158,14 +158,14 @@ const AllProducts = () => {
   if (role !== 'admin') {
     return (
       <div className="min-h-[60vh] bg-gray-50 px-4 py-10 flex items-center justify-center">
-        <title>Admin Products - CampusBazar</title>
+        <title>Admin Products - ComunityBazar</title>
         <div className="w-full max-w-lg bg-white border border-gray-100 rounded-2xl shadow-sm p-8 text-center">
           <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500">
             <ShieldCheck size={28} />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Admin Access Required</h1>
           <p className="mt-3 text-sm leading-6 text-gray-500">
-            Product management is only available to CampusBazar administrators.
+            Product management is only available to ComunityBazar administrators.
           </p>
         </div>
       </div>
@@ -174,7 +174,7 @@ const AllProducts = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 px-3 py-6 sm:px-6 lg:px-8">
-      <title>All Products - CampusBazar Admin</title>
+      <title>All Products - ComunityBazar Admin</title>
 
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6 lg:flex-row lg:items-center lg:justify-between">
@@ -299,7 +299,7 @@ const AllProducts = () => {
                 <div className="h-auto w-32 shrink-0 bg-gray-100 sm:aspect-4/3 sm:w-full">
                   <img
                     src={product.image || 'https://via.placeholder.com/500x375?text=No+Image'}
-                    alt={product.name || 'CampusBazar product'}
+                    alt={product.name || 'ComunityBazar product'}
                     className="h-full w-full object-cover"
                     onError={(event) => {
                       event.currentTarget.src = 'https://via.placeholder.com/500x375?text=No+Image'

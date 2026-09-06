@@ -6,10 +6,10 @@ const require = createRequire(new URL('../frontend/package.json', import.meta.ur
 const { initializeApp, deleteApp } = require('firebase/app');
 const { getAuth, connectAuthEmulator, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, deleteUser } = require('firebase/auth');
 const results = [];
-const email = `smoke-${Date.now()}@campusbazar.test`;
+const email = `smoke-${Date.now()}@comunitybazar.test`;
 const password = 'LocalSmoke123!';
 const api = 'http://127.0.0.1:3000';
-const app = initializeApp({ apiKey: 'demo-campus-bazar-key', projectId: 'demo-campus-bazar' }, 'local-check');
+const app = initializeApp({ apiKey: 'demo-comunity-bazar-key', projectId: 'demo-comunity-bazar' }, 'local-check');
 const auth = getAuth(app);
 connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
 const dbClient = new MongoClient('mongodb://127.0.0.1:27017');
@@ -68,7 +68,7 @@ try {
   assert.equal((await request(`/reviews/product/${ids.listing}`))[0].rating, 5);
   assert.equal((await request(`/reviews/user/${email}`)).length, 1);
   pass('Review creation and retrieval');
-  const adminHeaders = { 'x-user-email': 'admin@campusbazar.test' };
+  const adminHeaders = { 'x-user-email': 'admin@comunitybazar.test' };
   assert.ok(Array.isArray(await request('/admin/listings', 'GET', undefined, adminHeaders)));
   await request(`/listings/${ids.listing}`, 'DELETE', undefined, adminHeaders);
   await request(`/orders/${ids.order}`, 'DELETE');
@@ -83,7 +83,7 @@ try {
   results.push({ name: 'Local smoke checks', status: 'FAIL', error: error.message });
   console.error(error); process.exitCode = 1;
 } finally {
-  const db = dbClient.db('CampusBazar-local');
+  const db = dbClient.db('ComunityBazar-local');
   for (const collection of ['user', 'listings', 'cart', 'wishlist', 'orders']) {
     await db.collection(collection).deleteMany({ email }).catch(() => {});
   }

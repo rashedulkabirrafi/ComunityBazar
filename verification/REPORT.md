@@ -1,4 +1,4 @@
-# CampusBazar verification report
+# ComunityBazar verification report
 
 Checked September 5, 2026 using Node v22.23.2 and npm 10.9.8.
 

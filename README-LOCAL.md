@@ -1,4 +1,4 @@
-# Run CampusBazar on this machine
+# Run ComunityBazar on this machine
 
 This repository includes `frontend/`, `backend/`, and local development tools. Workspace tooling installs Firebase CLI and a real MongoDB binary; Docker and a cloud account are not required. Use Node.js 22.23.2 or a compatible Node 22 version. The setup was verified on Ubuntu 24.04; the background stop script uses Linux /proc.
 
@@ -9,12 +9,12 @@ cd <your-clone-directory>
 npm start
 ```
 
-Open **http://localhost:5173** after the terminal says CampusBazar is ready.
+Open **http://localhost:5173** after the terminal says ComunityBazar is ready.
 
 | Local account | Email | Password |
 |---|---|---|
-| Student | student@campusbazar.test | Campus123! |
-| Administrator | admin@campusbazar.test | Campus123! |
+| Student | student@comunitybazar.test | Campus123! |
+| Administrator | admin@comunitybazar.test | Campus123! |
 
 These are disposable local test credentials. Sample listings are created automatically. You can also register new accounts using a PNG/JPEG/WebP/GIF profile photo (up to 5 MB). Only use test information because the application has known security defects.
 
@@ -52,7 +52,7 @@ npm ci --prefix backend
 | Frontend | http://localhost:5173 |
 | Express API | http://127.0.0.1:3000 |
 | MongoDB | mongodb://127.0.0.1:27017 |
-| Database | CampusBazar-local |
+| Database | ComunityBazar-local |
 | Firebase Auth emulator | http://127.0.0.1:9099 |
 | Emulator internal ports | 4400 and 4500 |
 | Database, images and auth exports | .local-data/ |

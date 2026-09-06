@@ -54,7 +54,7 @@ const MyListing = () => {
             Products You're Selling
           </h1>
           <p className="text-gray-500 mt-2 text-sm">
-            Manage and view all the items you have listed on CampusBazar
+            Manage and view all the items you have listed on ComunityBazar
           </p>
         </div>
 

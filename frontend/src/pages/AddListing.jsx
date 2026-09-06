@@ -112,7 +112,7 @@ const AddListing = () => {
               Add a Listing
             </h1>
             <p className="text-gray-500 mt-2 text-sm">
-              Fill in the details below to post your item on CampusBazar
+              Fill in the details below to post your item on ComunityBazar
             </p>
           </div>
 

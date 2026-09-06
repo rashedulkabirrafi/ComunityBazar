@@ -13,7 +13,7 @@ const Footer = () => {
                 <span className="text-white text-3xl font-bold">C</span>
               </div>
               <div>
-                <span className="text-2xl font-bold text-gray-800">Campus</span>
+                <span className="text-2xl font-bold text-gray-800">Comunity</span>
                 <span className="text-2xl font-bold text-indigo-600">Bazar</span>
               </div>
             </div>
@@ -59,7 +59,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>© 2026 CampusBazar. All rights reserved.</p>
+          <p>© 2026 ComunityBazar. All rights reserved.</p>
           
           <div className="flex items-center gap-6">
             {/* Social Icons */}

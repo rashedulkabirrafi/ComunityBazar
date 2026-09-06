@@ -44,7 +44,7 @@ const Navbar = () => {
                 <span className="text-white text-2xl font-bold">C</span>
               </div>
               <div>
-                <span className="text-2xl font-bold text-gray-800">Campus</span>
+                <span className="text-2xl font-bold text-gray-800">Comunity</span>
                 <span className="text-2xl font-bold text-indigo-600">Bazar</span>
               </div>
             </a>

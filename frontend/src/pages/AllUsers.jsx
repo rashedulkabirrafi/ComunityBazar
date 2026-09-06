@@ -99,7 +99,7 @@ const AllUsers = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10">
-      <title>All Users — CampusBazar</title>
+      <title>All Users — ComunityBazar</title>
 
       <div className="max-w-7xl mx-auto">
 
@@ -112,7 +112,7 @@ const AllUsers = () => {
             All Registered Users
           </h1>
           <p className="text-gray-500 text-sm md:text-base max-w-lg mx-auto">
-            Manage all CampusBazar community members. Search, filter, and update user roles.
+            Manage all ComunityBazar community members. Search, filter, and update user roles.
           </p>
         </div>
 

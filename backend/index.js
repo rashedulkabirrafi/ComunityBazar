@@ -56,7 +56,7 @@ async function run() {
     // All the backend wroks will start from here. 
 
     // Creating database
-    const database = client.db(process.env.DB_NAME || 'CampusBazar-CSE470-DB')
+    const database = client.db(process.env.DB_NAME || 'ComunityBazar-CSE470-DB')
 
     // creating collections
     const userCollections = database.collection('user');

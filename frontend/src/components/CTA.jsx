@@ -18,7 +18,7 @@ const CTA = () => {
             Got stuff you don't need? <br className="hidden md:block" /> Turn it into cash.
           </h2>
           <p className="text-indigo-100 text-lg mb-10">
-            Join thousands of students who are selling their used textbooks, electronics, and dorm essentials on CampusBazar.
+            Join thousands of students who are selling their used textbooks, electronics, and dorm essentials on ComunityBazar.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="dashboard/AddListing" className="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-4 px-8 rounded-full transition-colors flex items-center justify-center gap-2 shadow-lg">

@@ -38,7 +38,7 @@ const Login = () => {
             <span className="text-indigo-600 text-3xl font-bold">C</span>
           </div>
           <h2 className="text-3xl font-bold mb-3">
-            Campus<span className="text-yellow-300">Bazar</span>
+            Comunity<span className="text-yellow-300">Bazar</span>
           </h2>
           <p className="text-indigo-100 text-sm leading-relaxed mb-8">
             Welcome back! Login to explore deals, manage your listings, and connect with campus mates.
@@ -67,12 +67,12 @@ const Login = () => {
               <span className="text-white text-lg font-bold">C</span>
             </div>
             <span className="text-xl font-bold text-gray-800">
-              Campus<span className="text-indigo-600">Bazar</span>
+              Comunity<span className="text-indigo-600">Bazar</span>
             </span>
           </div>
 
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">Welcome Back!</h1>
-          <p className="text-gray-500 text-sm mb-8">Login to your CampusBazar account</p>
+          <p className="text-gray-500 text-sm mb-8">Login to your ComunityBazar account</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
 

@@ -10,7 +10,7 @@ verification/local-*.log
 .DS_Store
 
 # Local exports and verification output
-/campusbazar-export/
-/campusbazar.zip
+/exports/
+/ComunityBazar.zip
 /verification/*
 !/verification/REPORT.md

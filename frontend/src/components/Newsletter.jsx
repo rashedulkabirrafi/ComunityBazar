@@ -32,7 +32,7 @@ const Newsletter = () => {
         </div>
 
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Stay Updated with CampusBazar
+          Stay Updated with ComunityBazar
         </h2>
         
         <p className="text-indigo-100 text-lg md:text-xl max-w-md mx-auto mb-8">

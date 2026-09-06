@@ -1,4 +1,4 @@
-# CampusBazar
+# ComunityBazar
 
 A campus marketplace with a React/Vite frontend, Express/MongoDB backend, and tools to run an isolated local development environment.
 
@@ -16,8 +16,8 @@ Open http://localhost:5173. Setup installs frontend/backend dependencies and cre
 
 | Local test account | Email | Password |
 |---|---|---|
-| Student | student@campusbazar.test | Campus123! |
-| Administrator | admin@campusbazar.test | Campus123! |
+| Student | student@comunitybazar.test | Campus123! |
+| Administrator | admin@comunitybazar.test | Campus123! |
 
 These accounts exist only in the local authentication emulator. Use test data only.
 

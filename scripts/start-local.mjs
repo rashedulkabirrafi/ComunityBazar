@@ -58,7 +58,7 @@ try {
   mongo = await MongoMemoryServer.create({ instance: {
     ip: '127.0.0.1', port: 27017, dbPath: `${root}.local-data/mongodb`, storageEngine: 'wiredTiger',
   } });
-  const authArgs = ['node_modules/firebase-tools/lib/bin/firebase.js', 'emulators:start', '--only', 'auth', '--project', 'demo-campus-bazar', '--export-on-exit=.local-data/auth'];
+  const authArgs = ['node_modules/firebase-tools/lib/bin/firebase.js', 'emulators:start', '--only', 'auth', '--project', 'demo-comunity-bazar', '--export-on-exit=.local-data/auth'];
   if (existsSync('.local-data/auth/firebase-export-metadata.json')) authArgs.push('--import=.local-data/auth');
   start('auth', authArgs);
   await ready('http://127.0.0.1:9099/');
@@ -68,8 +68,8 @@ try {
   await seed();
   start('frontend', ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', '5173', '--strictPort'], `${root}frontend`);
   await ready('http://127.0.0.1:5173/');
-  console.log('\nCampusBazar is ready: http://localhost:5173');
-  console.log('Student: student@campusbazar.test / Campus123!');
-  console.log('Admin: admin@campusbazar.test / Campus123!');
+  console.log('\nComunityBazar is ready: http://localhost:5173');
+  console.log('Student: student@comunitybazar.test / Campus123!');
+  console.log('Admin: admin@comunitybazar.test / Campus123!');
   console.log('Local-only test accounts. Press Ctrl+C to stop and save authentication data.');
 } catch (error) { console.error(error); await stop(1); }
