@@ -209,6 +209,59 @@ app.get("/listing/:id", async (req, res) => {
     ...publicRow,
     seller: seller?.name || "Community member",
     sellerSince: seller?.createdAt,
+    sellerId: seller?._id,
+  });
+});
+app.get("/seller/:id", async (req, res) => {
+  const seller = await users.findOne(
+    { _id: id(req.params.id) },
+    { projection },
+  );
+  if (!seller || seller.disabled)
+    throw fail(404, "This member profile is not available.");
+  const owned = await listings
+    .find({ email: seller.email }, { projection: { _id: 1 } })
+    .limit(500)
+    .toArray();
+  const available = {
+    email: seller.email,
+    archived: { $ne: true },
+    stock: { $gt: 0 },
+  };
+  const [items, total, feedback] = await Promise.all([
+    listings
+      .find(available, { projection: { email: 0 } })
+      .sort({ createdAt: -1 })
+      .limit(24)
+      .toArray(),
+    listings.countDocuments(available),
+    reviews
+      .aggregate([
+        {
+          $match: {
+            productId: { $in: owned.map((row) => row._id.toString()) },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+            rating: { $avg: "$rating" },
+          },
+        },
+      ])
+      .toArray(),
+  ]);
+  res.json({
+    name: seller.name || "Community member",
+    image: seller.mainImageUrl || "",
+    memberSince: seller.createdAt,
+    listings: items,
+    total,
+    reviews: feedback[0]?.count || 0,
+    rating: feedback[0]?.rating
+      ? Math.round(feedback[0].rating * 10) / 10
+      : null,
   });
 });
 app.get("/reviews/product/:productId", async (req, res) =>

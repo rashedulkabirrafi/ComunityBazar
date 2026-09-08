@@ -1,7 +1,7 @@
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-const root = fileURLToPath(new URL("../", import.meta.url));
+const root = fileURLToPath(new URL("../../", import.meta.url));
 process.chdir(root);
 for (const [source, target] of [
   ["frontend/.env.example", "frontend/.env.local"],
@@ -12,7 +12,7 @@ for (const [source, target] of [
     console.log(`Created ${target}`);
   } else console.log(`Kept existing ${target}`);
 }
-mkdirSync("verification", { recursive: true });
+mkdirSync("security/verification", { recursive: true });
 for (const directory of ["frontend", "backend"]) {
   const result = spawnSync(
     process.platform === "win32" ? "npm.cmd" : "npm",

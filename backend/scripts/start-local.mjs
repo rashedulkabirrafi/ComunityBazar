@@ -11,7 +11,7 @@ import {
 import { fileURLToPath } from "node:url";
 import net from "node:net";
 
-const root = fileURLToPath(new URL("../", import.meta.url));
+const root = fileURLToPath(new URL("../../", import.meta.url));
 process.chdir(root);
 const children = [];
 let mongo;
@@ -112,18 +112,21 @@ try {
       },
     ],
   });
+  const authData = `${root}.local-data/auth`;
   const authArgs = [
-    "node_modules/firebase-tools/lib/bin/firebase.js",
+    `${root}node_modules/firebase-tools/lib/bin/firebase.js`,
     "emulators:start",
     "--only",
     "auth",
     "--project",
     "demo-comunity-bazar",
-    "--export-on-exit=.local-data/auth",
+    "--config",
+    `${root}backend/firebase.json`,
+    `--export-on-exit=${authData}`,
   ];
-  if (existsSync(".local-data/auth/firebase-export-metadata.json"))
-    authArgs.push("--import=.local-data/auth");
-  start("auth", authArgs);
+  if (existsSync(`${authData}/firebase-export-metadata.json`))
+    authArgs.push(`--import=${authData}`);
+  start("auth", authArgs, `${root}.local-data`);
   await ready("http://127.0.0.1:9099/");
   start("backend", ["index.js"], `${root}backend`);
   await ready("http://127.0.0.1:3000/listings");

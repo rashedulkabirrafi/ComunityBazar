@@ -3,13 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node scripts/start-local.mjs",
-    "seed": "node scripts/seed-local.mjs",
-    "check": "node scripts/check-local.mjs",
-    "stop": "node scripts/stop-local.mjs",
-    "setup": "node scripts/setup-local.mjs",
-    "test:browser": "playwright test",
-    "format:check": "prettier --check frontend/src backend/index.js scripts tests playwright.config.js"
+    "start": "node backend/scripts/start-local.mjs",
+    "seed": "node backend/scripts/seed-local.mjs",
+    "check": "node security/checks.mjs",
+    "stop": "node backend/scripts/stop-local.mjs",
+    "setup": "node backend/scripts/setup-local.mjs",
+    "test:browser": "playwright test --config security/playwright.config.js",
+    "format:check": "prettier --check frontend/src backend/index.js backend/scripts security"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

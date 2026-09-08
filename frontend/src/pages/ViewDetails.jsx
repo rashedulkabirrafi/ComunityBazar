@@ -151,6 +151,12 @@ export default function ViewDetails() {
                   : ""}
               </small>
             </div>
+            {item.sellerId && (
+              <Link className="text-link" to={`/seller/${item.sellerId}`}>
+                View profile
+                <ChevronRight size={15} />
+              </Link>
+            )}
           </div>
           <div className="safety-note">
             <ShieldCheck size={20} />

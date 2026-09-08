@@ -1,6 +1,9 @@
 import { readFileSync, readlinkSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-const root = fileURLToPath(new URL("../", import.meta.url)).replace(/\/$/, "");
+const root = fileURLToPath(new URL("../../", import.meta.url)).replace(
+  /\/$/,
+  "",
+);
 const pidFile = `${root}/.local-data/stack.pid`;
 if (!existsSync(pidFile)) {
   console.log("No managed local stack is running.");
@@ -13,7 +16,7 @@ try {
   const args = readFileSync(`/proc/${pid}/cmdline`, "utf8").split("\0");
   if (
     readlinkSync(`/proc/${pid}/cwd`) !== root ||
-    !args.some((arg) => arg.endsWith("scripts/start-local.mjs"))
+    !args.some((arg) => arg.endsWith("start-local.mjs"))
   ) {
     throw new Error("PID belongs to another process; refusing to stop it.");
   }

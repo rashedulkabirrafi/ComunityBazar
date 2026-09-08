@@ -405,9 +405,9 @@ try {
       );
     } catch {}
   await dbClient.close();
-  mkdirSync(new URL("../verification", import.meta.url), { recursive: true });
+  mkdirSync(new URL("verification", import.meta.url), { recursive: true });
   writeFileSync(
-    new URL("../verification/local-checks.json", import.meta.url),
+    new URL("verification/local-checks.json", import.meta.url),
     JSON.stringify({ checkedAt: new Date(), results }, null, 2),
   );
 }

@@ -9,6 +9,7 @@ import MyProfile from "../pages/MyProfile";
 import MyCart from "../pages/MyCart";
 import Marketplace from "../pages/Marketplace";
 import ViewDetails from "../pages/ViewDetails";
+import SellerProfile from "../pages/SellerProfile";
 import Login from "../pages/Login";
 import Regisger from "../pages/Register";
 import AllUsers from "../pages/AllUsers";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "ViewDetails/:id",
         element: <ViewDetails />,
+      },
+      {
+        path: "seller/:id",
+        element: <SellerProfile />,
       },
       {
         path: "Login",

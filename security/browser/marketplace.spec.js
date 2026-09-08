@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { fileURLToPath } from "node:url";
+const shots = fileURLToPath(new URL("../verification/", import.meta.url));
 async function login(page, email = "student@comunitybazar.test") {
   await page.goto("/Login");
   await page.getByLabel("Email address", { exact: true }).fill(email);
@@ -18,7 +20,7 @@ test("home, marketplace and responsive accessibility", async ({ page }) => {
   ).toBeVisible();
   await expect(page.locator(".product-card")).toHaveCount(4);
   await page.screenshot({
-    path: "verification/home-desktop.png",
+    path: `${shots}home-desktop.png`,
     fullPage: true,
   });
   const audit = await new AxeBuilder({ page })
@@ -38,7 +40,7 @@ test("home, marketplace and responsive accessibility", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".product-card")).toHaveCount(4);
   await page.screenshot({
-    path: "verification/home-mobile.png",
+    path: `${shots}home-mobile.png`,
     fullPage: true,
   });
   expect(
@@ -78,7 +80,7 @@ test("member login, profile persistence, protected admin navigation and saved fi
   await page.goto("/dashboard/MyWishlist");
   await expect(page.locator(".product-card").first()).toBeVisible();
   await page.screenshot({
-    path: "verification/saved-desktop.png",
+    path: `${shots}saved-desktop.png`,
     fullPage: true,
   });
   await page.goto("/dashboard/MyCart");
@@ -89,6 +91,29 @@ test("member login, profile persistence, protected admin navigation and saved fi
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
   expect(audit.violations).toEqual([]);
+});
+test("public seller profile lists a member's other finds", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/Marketplace");
+  await page.locator(".product-card").first().getByRole("link").first().click();
+  const seller = await page.locator(".seller-card strong").innerText();
+  await page.getByRole("link", { name: "View profile" }).click();
+  await expect(
+    page.getByRole("heading", { level: 1, name: seller, exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: `Available from ${seller}` }),
+  ).toBeVisible();
+  await expect(page.locator(".product-card").first()).toBeVisible();
+  await page
+    .getByRole("link", { name: "Back to the marketplace" })
+    .first()
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Find your next good thing." }),
+  ).toBeVisible();
+  expect(errors).toEqual([]);
 });
 test("admin pages, auth errors, and missing route", async ({ page }) => {
   await page.goto("/Login");
@@ -109,7 +134,7 @@ test("admin pages, auth errors, and missing route", async ({ page }) => {
     page.getByRole("heading", { name: "Keep good things in view." }),
   ).toBeVisible();
   await page.screenshot({
-    path: "verification/admin-desktop.png",
+    path: `${shots}admin-desktop.png`,
     fullPage: true,
   });
   await page.goto("/does-not-exist");
@@ -180,7 +205,7 @@ test("complete registration, listing, checkout, admin handover, and review flow"
       .getByLabel("Preferred meeting area")
       .fill("Public library, Saturday afternoon");
     await page.screenshot({
-      path: "verification/checkout-desktop.png",
+      path: `${shots}checkout-desktop.png`,
       fullPage: true,
     });
     await page.getByRole("button", { name: /Place order/ }).click();

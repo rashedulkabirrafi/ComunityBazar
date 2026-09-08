@@ -6,15 +6,13 @@ dist/
 !.env.example
 !.env.production.example
 *.log
-verification/local-*.json
-verification/local-*.log
+security/verification/local-*.json
+security/verification/local-*.log
 .DS_Store
 
-# Local exports and verification output
-/exports/
-/ComunityBazar.zip
-/verification/*
-!/verification/REPORT.md
+# Generated verification output
+/security/verification/*
+!/security/verification/REPORT.md
 
 /playwright-report/
 /test-results/

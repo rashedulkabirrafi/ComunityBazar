@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { fileURLToPath } from "node:url";
+const shots = fileURLToPath(new URL("../verification/", import.meta.url));
 const viewports = [
   { name: "desktop", width: 1280, height: 800 },
   { name: "mobile", width: 390, height: 844 },
@@ -53,7 +55,7 @@ async function audit(page, label, viewport) {
     `${label} accessibility violations`,
   ).toEqual([]);
   await page.screenshot({
-    path: `verification/responsive/${viewport}-${label}.png`,
+    path: `${shots}responsive/${viewport}-${label}.png`,
     fullPage: true,
   });
 }
@@ -85,6 +87,8 @@ for (const viewport of viewports) {
       );
       await page.goto(`/ViewDetails/${listing}`);
       await audit(page, "listing-details", viewport.name);
+      await page.getByRole("link", { name: "View profile" }).click();
+      await audit(page, "seller-profile", viewport.name);
       expect(errors).toEqual([]);
     });
     test(`member and admin pages render without overflow or violations`, async ({
