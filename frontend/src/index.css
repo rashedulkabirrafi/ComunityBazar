@@ -2153,3 +2153,43 @@ dialog::backdrop {
   color: #fff;
   white-space: nowrap;
 }
+
+.whatsapp-button {
+  position: fixed;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 14px 20px;
+  border: 1px solid #ffffff50;
+  border-radius: 999px;
+  background: #087c49;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 24px #173d3130;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.whatsapp-button:hover {
+  background: #06633b;
+  box-shadow: 0 8px 28px #173d3145;
+}
+.whatsapp-button:focus-visible {
+  outline: 3px solid #efab73;
+  outline-offset: 4px;
+}
+@media (max-width: 550px) {
+  .whatsapp-button {
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    padding: 14px;
+  }
+  .whatsapp-button span {
+    display: none;
+  }
+}
