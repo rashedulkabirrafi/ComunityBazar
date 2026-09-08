@@ -391,9 +391,11 @@ for (const [name, collection] of [
     const product = await listings.findOne({
       _id: id(productId),
       archived: { $ne: true },
-      stock: { $gte: wanted },
+      stock: { $gt: 0 },
     });
     if (!product) throw fail(409, "This item is no longer available.");
+    if (product.stock < wanted)
+      throw fail(409, "Not enough stock is available.");
     if (product.email === req.email)
       throw fail(400, "This is your own listing.");
     const { _id, email, ...snapshot } = product;
@@ -406,6 +408,7 @@ for (const [name, collection] of [
           image: snapshot.image,
           category: snapshot.category,
           location: snapshot.location,
+          productType: snapshot.productType,
           email: req.email,
           productId,
           quantity: wanted,
