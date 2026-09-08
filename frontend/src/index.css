@@ -2162,16 +2162,13 @@ dialog::backdrop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-width: 56px;
-  min-height: 56px;
-  padding: 14px 20px;
+  width: 56px;
+  height: 56px;
+  padding: 13px;
   border: 1px solid #ffffff50;
   border-radius: 999px;
   background: #087c49;
   color: #fff;
-  font-size: 14px;
-  font-weight: 600;
   box-shadow: 0 6px 24px #173d3130;
   transition: background 0.2s, box-shadow 0.2s;
 }
@@ -2187,9 +2184,5 @@ dialog::backdrop {
   .whatsapp-button {
     right: max(16px, env(safe-area-inset-right));
     bottom: max(16px, env(safe-area-inset-bottom));
-    padding: 14px;
-  }
-  .whatsapp-button span {
-    display: none;
   }
 }
