@@ -2172,6 +2172,44 @@ dialog::backdrop {
   box-shadow: 0 6px 24px #173d3130;
   transition: background 0.2s, box-shadow 0.2s;
 }
+.whatsapp-button::before,
+.whatsapp-button::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 2px solid #087c49;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  animation: whatsapp-ripple 2.8s ease-out infinite;
+}
+.whatsapp-button::after {
+  animation-delay: 1.4s;
+}
+.whatsapp-button svg {
+  animation: whatsapp-pulse 2.8s ease-in-out infinite;
+}
+@keyframes whatsapp-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  70%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes whatsapp-pulse {
+  0%,
+  40%,
+  100% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.08);
+  }
+}
 .whatsapp-button:hover {
   background: #06633b;
   box-shadow: 0 8px 28px #173d3145;
