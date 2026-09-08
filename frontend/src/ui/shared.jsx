@@ -1,13 +1,25 @@
 import {
   cloneElement,
   isValidElement,
+  useContext,
   useEffect,
   useId,
   useState,
 } from "react";
-import { Link } from "react-router";
-import { ArrowRight, MapPin, PackageOpen, RefreshCw, X } from "lucide-react";
-import { money } from "../lib/api";
+import { Link, useNavigate } from "react-router";
+import {
+  ArrowRight,
+  Heart,
+  MapPin,
+  Minus,
+  PackageOpen,
+  Plus,
+  RefreshCw,
+  ShoppingBag,
+  X,
+} from "lucide-react";
+import { AuthContext } from "../Provider/AuthProvider";
+import { api, money } from "../lib/api";
 export function Brand({ light = false }) {
   return (
     <Link
@@ -44,16 +56,97 @@ export function ProductImage({ src, alt, ...props }) {
     </div>
   );
 }
-export function ProductCard({ item }) {
+export function QuantityPicker({
+  value,
+  onChange,
+  max = 20,
+  disabled = false,
+  label = "quantity",
+}) {
+  const clamp = (next) => Math.min(max, Math.max(1, next || 1));
   return (
-    <article className="product-card">
-      <Link to={`/ViewDetails/${item._id}`} className="product-visual">
-        <ProductImage src={item.image} alt={item.name} />
+    <div className="quantity">
+      <button
+        type="button"
+        disabled={disabled || value <= 1}
+        aria-label={`Decrease ${label}`}
+        onClick={() => onChange(clamp(value - 1))}
+      >
+        <Minus size={12} />
+      </button>
+      <input
+        type="number"
+        min="1"
+        max={max}
+        step="1"
+        value={value}
+        disabled={disabled}
+        aria-label={`Select ${label}`}
+        onChange={(event) => onChange(clamp(Number(event.target.value)))}
+      />
+      <button
+        type="button"
+        disabled={disabled || value >= max}
+        aria-label={`Increase ${label}`}
+        onClick={() => onChange(clamp(value + 1))}
+      >
+        <Plus size={12} />
+      </button>
+    </div>
+  );
+}
+export function ProductCard({ item, footer, saveable = true }) {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState("");
+  const [failure, setFailure] = useState("");
+  const stock = Number.isFinite(Number(item.stock)) ? Number(item.stock) : null;
+  const soldOut = stock === 0;
+  const link = `/ViewDetails/${item._id}`;
+  async function save() {
+    if (!user) {
+      navigate("/Login", { state: link });
+      return;
+    }
+    setBusy(true);
+    setNote("");
+    setFailure("");
+    try {
+      const result = await api("/wishlist", {
+        method: "POST",
+        body: { productId: item._id },
+      });
+      setNote(result.duplicate ? "Already saved." : "Saved for later.");
+    } catch (err) {
+      setFailure(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <article className={`product-card${soldOut ? " sold-out" : ""}`}>
+      <div className="product-media">
+        <Link to={link} className="product-visual">
+          <ProductImage src={item.image} alt={item.name} />
+        </Link>
         <span className="condition">{item.productType || "Pre-loved"}</span>
-      </Link>
+        {soldOut && <span className="stock-flag">Sold out</span>}
+        {saveable && (
+          <button
+            type="button"
+            className="wish-button"
+            disabled={busy}
+            aria-label={`Save ${item.name}`}
+            onClick={save}
+          >
+            <Heart size={15} />
+          </button>
+        )}
+      </div>
       <div className="product-copy">
         <div className="eyebrow">{item.category}</div>
-        <Link to={`/ViewDetails/${item._id}`}>
+        <Link to={link}>
           <h3>{item.name}</h3>
         </Link>
         <div className="product-bottom">
@@ -63,6 +156,26 @@ export function ProductCard({ item }) {
             {item.location || "Nearby"}
           </span>
         </div>
+        <p className="stock-hint">
+          {stock !== null && stock > 0 && stock <= 5
+            ? `Only ${stock} left`
+            : ""}
+        </p>
+        {!footer && (
+          <Link className="button small full card-cta" to={link}>
+            <ShoppingBag size={15} />
+            {soldOut ? "View details" : "Choose quantity"}
+          </Link>
+        )}
+        {(note || failure) && (
+          <p
+            className={`card-note${failure ? " error" : ""}`}
+            role={failure ? "alert" : "status"}
+          >
+            {failure || note}
+          </p>
+        )}
+        {footer}
       </div>
     </article>
   );

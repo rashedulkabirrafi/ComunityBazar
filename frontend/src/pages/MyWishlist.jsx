@@ -23,6 +23,7 @@ export default function MyWishlist() {
   async function action(item, remove = false) {
     setBusy(item._id);
     setFailure("");
+    setMessage("");
     try {
       if (remove) {
         await api(`/wishlist/${item._id}`, { method: "DELETE" });
@@ -34,7 +35,7 @@ export default function MyWishlist() {
         });
         setMessage(
           result.duplicate
-            ? "This item is already in your bag."
+            ? `Your bag now holds ${result.quantity ?? 1} of these.`
             : "Added to your shopping bag.",
         );
       }
@@ -67,27 +68,31 @@ export default function MyWishlist() {
       ) : (
         <div className="product-grid">
           {data.map((item) => (
-            <div key={item._id}>
-              <ProductCard item={{ ...item, _id: item.productId }} />
-              <div style={{ display: "flex", gap: 8, marginTop: 15 }}>
-                <button
-                  className="button secondary small"
-                  disabled={!!busy}
-                  onClick={() => action(item)}
-                >
-                  <ShoppingBag size={14} />
-                  Add to bag
-                </button>
-                <button
-                  className="icon-button"
-                  aria-label={`Unsave ${item.name}`}
-                  disabled={!!busy}
-                  onClick={() => action(item, true)}
-                >
-                  <X size={17} />
-                </button>
-              </div>
-            </div>
+            <ProductCard
+              key={item._id}
+              saveable={false}
+              item={{ ...item, _id: item.productId }}
+              footer={
+                <div className="card-actions">
+                  <button
+                    className="button secondary small"
+                    disabled={!!busy}
+                    onClick={() => action(item)}
+                  >
+                    <ShoppingBag size={14} />
+                    Add to bag
+                  </button>
+                  <button
+                    className="icon-button"
+                    aria-label={`Unsave ${item.name}`}
+                    disabled={!!busy}
+                    onClick={() => action(item, true)}
+                  >
+                    <X size={17} />
+                  </button>
+                </div>
+              }
+            />
           ))}
         </div>
       )}

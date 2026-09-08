@@ -31,7 +31,7 @@ test("home, marketplace and responsive accessibility", async ({ page }) => {
   await page.getByRole("button", { name: "Search", exact: true }).click();
   await expect(page.locator(".product-card")).toHaveCount(1);
   await page.getByRole("button", { name: "Clear filters" }).click();
-  await expect(page.locator(".product-card")).toHaveCount(6);
+  await expect(page.locator(".product-card")).toHaveCount(12);
   await page.getByRole("button", { name: "Books", exact: true }).click();
   await expect(page.locator(".product-card")).toHaveCount(1);
   await page.setViewportSize({ width: 390, height: 844 });

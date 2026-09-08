@@ -10,7 +10,13 @@ import {
 import { AuthContext } from "../Provider/AuthProvider";
 import { api, money } from "../lib/api";
 import useResource from "../hooks/useResource";
-import { ProductImage, Notice, Loading, ErrorState } from "../ui/shared";
+import {
+  ProductImage,
+  Notice,
+  Loading,
+  ErrorState,
+  QuantityPicker,
+} from "../ui/shared";
 export default function ViewDetails() {
   const { id } = useParams(),
     navigate = useNavigate();
@@ -19,7 +25,8 @@ export default function ViewDetails() {
   const reviews = useResource(`/reviews/product/${id}`);
   const [busy, setBusy] = useState(""),
     [message, setMessage] = useState(""),
-    [failure, setFailure] = useState("");
+    [failure, setFailure] = useState(""),
+    [quantity, setQuantity] = useState(1);
   async function add(type) {
     if (!user) {
       navigate("/Login", { state: `/ViewDetails/${id}` });
@@ -31,14 +38,17 @@ export default function ViewDetails() {
     try {
       const result = await api(`/${type}`, {
         method: "POST",
-        body: { productId: id },
+        body: { productId: id, ...(type === "cart" ? { quantity } : {}) },
       });
       setMessage(
         result.duplicate
-          ? "This find is already in your " +
-              (type === "cart" ? "bag." : "saved list.")
+          ? type === "cart"
+            ? `Your bag now holds ${result.quantity ?? quantity} of these.`
+            : "This find is already in your saved list."
           : type === "cart"
-            ? "Added to your shopping bag."
+            ? quantity > 1
+              ? `Added ${quantity} to your shopping bag.`
+              : "Added to your shopping bag."
             : "Saved for another look.",
       );
     } catch (err) {
@@ -87,6 +97,26 @@ export default function ViewDetails() {
           <p className="detail-description">{item.description}</p>
           <Notice message={message} />
           <Notice message={failure} tone="error" />
+          {item.stock > 0 && (
+            <div className="detail-buy">
+              <div className="detail-buy-row">
+                <span className="detail-buy-label">Quantity</span>
+                <QuantityPicker
+                  value={quantity}
+                  max={Math.max(1, Math.min(20, item.stock))}
+                  disabled={!!busy}
+                  label={`quantity of ${item.name}`}
+                  onChange={setQuantity}
+                />
+              </div>
+              <div className="detail-buy-row detail-subtotal">
+                <span>
+                  Subtotal · {quantity} × {money(item.price)}
+                </span>
+                <strong>{money(item.price * quantity)}</strong>
+              </div>
+            </div>
+          )}
           <div className="detail-buttons">
             <button
               className="button"

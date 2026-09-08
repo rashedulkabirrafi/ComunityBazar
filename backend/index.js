@@ -381,11 +381,17 @@ for (const [name, collection] of [
     ),
   );
   app.post(`/${name}`, async (req, res) => {
-    const { productId } = z.object({ productId: text(24) }).parse(req.body);
+    const { productId, quantity } = z
+      .object({
+        productId: text(24),
+        quantity: z.coerce.number().int().min(1).max(20).default(1),
+      })
+      .parse(req.body);
+    const wanted = name === "cart" ? quantity : 1;
     const product = await listings.findOne({
       _id: id(productId),
       archived: { $ne: true },
-      stock: { $gt: 0 },
+      stock: { $gte: wanted },
     });
     if (!product) throw fail(409, "This item is no longer available.");
     if (product.email === req.email)
@@ -402,17 +408,33 @@ for (const [name, collection] of [
           location: snapshot.location,
           email: req.email,
           productId,
-          quantity: 1,
+          quantity: wanted,
           createdAt: new Date(),
         },
       },
       { upsert: true },
     );
-    res.json({
-      acknowledged: true,
-      duplicate: !result.upsertedCount,
-      insertedId: result.upsertedId,
+    if (result.upsertedCount)
+      return res.json({
+        acknowledged: true,
+        duplicate: false,
+        quantity: wanted,
+        insertedId: result.upsertedId,
+      });
+    const existing = await collection.findOne({
+      email: req.email,
+      productId,
     });
+    const total =
+      name === "cart"
+        ? Math.min(20, product.stock, (existing?.quantity || 1) + wanted)
+        : existing?.quantity || 1;
+    if (name === "cart" && total !== existing?.quantity)
+      await collection.updateOne(
+        { _id: existing._id },
+        { $set: { quantity: total, price: product.price } },
+      );
+    res.json({ acknowledged: true, duplicate: true, quantity: total });
   });
   app.patch(`/${name}/:id`, async (req, res) => {
     const row = await owned(collection, req);
